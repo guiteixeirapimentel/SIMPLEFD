@@ -1,23 +1,19 @@
 #ifndef EASTBOUNDARY_H
 #define EASTBOUNDARY_H
-#include "BoundaryField.h"
+#include "BoundaryNode.h"
+#include "InternalNode.h"
 
-class EastBoundary : public BoundaryField
+class EastBoundary : public BoundaryNode
 {
 public:
-    EastBoundary(double x, double y, double U, double V, double P, TYPE type);
+    EastBoundary(double x, double y, double initValue);
     ~EastBoundary();
 
     void SetWestBoundary(Node const* pWestNode);
 
+public:
+    InternalNode const* cPWestNode;
 
-    virtual double CalculatePRelax() override;
-    virtual void CalculateU(double dt) override;
-    virtual void CalculateV(double dt) override;
-
-
-private:
-    Node const* cPWestNode;
 };
 
 #endif
