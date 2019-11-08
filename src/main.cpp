@@ -63,7 +63,7 @@ int main()
         
             const double x = (j * dx)+dx;
                     
-            internFieldBottom[j + ((i-botstart) * numberX)] = new InternalField(x, y, 0.0, 0.0, 0.0);
+            internFieldBottom[j + ((i-botstart) * numberX)] = new InternalNode(x, y, 0.0);
         }
     }
 
@@ -77,7 +77,7 @@ int main()
         
             const double x = (j * dx)+dx;
                     
-            internFieldLeft[j + ((i-toplimit) * leftLimit)] = new InternalField(x, y, 0.0, 0.0, 0.0);
+            internFieldLeft[j + ((i-toplimit) * leftLimit)] = new InternalNode(x, y, 0.0);
          
         }
     }
@@ -92,7 +92,7 @@ int main()
         
             const double x = (j * dx)+dx;
                     
-            internFieldRight[(j-rightStart) + (((i-toplimit) * (numberX-rightStart)))] = new InternalField(x, y, 0.0, 0.0, 0.0);
+            internFieldRight[(j-rightStart) + (((i-toplimit) * (numberX-rightStart)))] = new InternalNode(x, y, 0.0);
         }
     }
     
