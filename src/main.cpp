@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
-	
+int main() 
+{
+	std::cout << "FD" << std::endl;
 	return 0;
 }
