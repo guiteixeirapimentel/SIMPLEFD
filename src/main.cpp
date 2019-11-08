@@ -17,8 +17,8 @@ int main()
     const double freestreamU = 1.0;
     const double freestreamV = 0.0;
 
-    const double domainHeight = 5.0;
-    const double domainLength = 5.0;
+    const double domainHeight = 10.0;
+    const double domainLength = 10.0;
 
     // Garantindo Courant-Number até vel dez x maior.
     const double dx = 0.01; 
@@ -31,10 +31,10 @@ int main()
     size_t numberX = domainLength/dx;
     size_t numberY = domainHeight/dy;
 
-    std::vector<InternalField*> internFieldLeft;
-    std::vector<InternalField*> internFieldTop;
-    std::vector<InternalField*> internFieldBottom;
-    std::vector<InternalField*> internFieldRight;
+    std::vector<InternalNode*> internFieldLeft;
+    std::vector<InternalNode*> internFieldTop;
+    std::vector<InternalNode*> internFieldBottom;
+    std::vector<InternalNode*> internFieldRight;
 
     const size_t toplimit = size_t((numberY / 2) - (flatPlateThickness/(dy*2.0)))-1;
     const size_t botstart = size_t((numberY / 2) + (flatPlateThickness/(dy*2.0)));
@@ -50,7 +50,7 @@ int main()
         
             const double x = (j * dx)+dx;
 
-            internFieldTop[j + (i * numberX)] = new InternalField(x, y, 0.0, 0.0, 0.0);
+            internFieldTop[j + (i * numberX)] = new InternalNode(x, y, 0.0);
         }
     }
 
