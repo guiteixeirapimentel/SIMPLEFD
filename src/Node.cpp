@@ -1,17 +1,11 @@
 #include "Node.h"
 #include <iostream>
-Node::Node(double x, double y, double U, double V, double P)
+
+Node::Node(double x, double y, double initValue)
 :
 cX(x),
 cY(y),
-cP(P),
-cU(U),
-cV(V),
-cRHO(1.0),
-cNU(1.0),
-cPoissonSourceTerm(0.0),
-cNewU(0.0), 
-cNewV(0.0)
+cValue(initValue)
 {}
 
 Node::~Node()
@@ -27,23 +21,8 @@ double Node::GetY() const
     return cY;
 }
 
-double Node::GetP() const
+double Node::GetValue() const
 {
-    return cP;
+    return cValue;
 }
-
-double Node::GetU() const
-{
-    return cU;
-}
-
-double Node::GetV() const
-{
-    return cV;
-}
-
-void Node::EndStep()
-{
-    cU = cNewU;
-    cV = cNewV;
 }

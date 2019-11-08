@@ -3,17 +3,12 @@
 #include "Node.h"
 #include <vector>
 
-class InternalField : public Node
+class InternalNode : public Node
 {
 public:
-    InternalField(double x, double y, double U, double V, double P);
-    ~InternalField();
+    InternalNode(double x, double y, double initValue);
+    ~InternalNode();
     
-    virtual void PreCalculatePoissonSource(double dt) override;
-    virtual double CalculatePRelax() override;
-    virtual void CalculateU(double dt) override;
-    virtual void CalculateV(double dt) override;
-
     void SetNorthNode(Node* const pNorthNode);
     void SetSouthNode(Node* const pSouthNode);
     void SetEastNode(Node* const pEastNode);
@@ -24,7 +19,7 @@ public:
     Node const* GetEastNode() const;
     Node const* GetWestNode() const;
 
-private:
+public:
     Node const *cPNorthNode;
     Node const *cPSouthNode;
     Node const *cPEastNode;

@@ -7,7 +7,7 @@
 #include "NorthBoundary.h"
 #include "SouthBoundary.h"
 
-#include "InternalField.h"
+#include "InternalNode.h"
 
 int main()
 {
