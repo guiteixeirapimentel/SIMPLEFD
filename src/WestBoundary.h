@@ -1,18 +1,15 @@
 #ifndef WESTBOUNDARY_H
 #define WESTBOUNDARY_H
-#include "BoundaryField.h"
+#include "BoundaryNode.h"
 
-class WestBoundary : public BoundaryField
+class WestBoundary : public BoundaryNode
 {
 public:
-    WestBoundary(double x, double y, double U, double V, double P, TYPE type);
+    WestBoundary(double x, double y, double initValue);
     ~WestBoundary();
 
     void SetEastNode(Node const* pSetEastNode);
 
-    virtual double CalculatePRelax() override;
-    virtual void CalculateU(double dt) override;
-    virtual void CalculateV(double dt) override;
 private:
     Node const* cPEastNode;
 };

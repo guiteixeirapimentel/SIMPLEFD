@@ -1,21 +1,16 @@
 #ifndef NORTHBOUNDARY_H
 #define NORTHBOUNDARY_H
-#include "BoundaryField.h"
+#include "BoundaryNode.h"
 
-class NorthBoundary : public BoundaryField
+class NorthBoundary : public BoundaryNode
 {
 public:
-    NorthBoundary(double x, double y, double U, double V, double P, TYPE type);
+    NorthBoundary(double x, double y, double initValue);
     ~NorthBoundary();
 
     void SetSouthNode(Node const* pSouthNode);
 
-    virtual double CalculatePRelax() override;
-    virtual void CalculateU(double dt) override;
-    virtual void CalculateV(double dt) override;
-
-
-private:
+public:
     Node const* cPSouthNode;
 };
 
