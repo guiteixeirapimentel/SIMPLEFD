@@ -2,6 +2,7 @@
 
 int main() 
 {
-	std::cout << "FD" << std::endl;
+	std::cout << "FD2" << std::endl;
+
 	return 0;
 }
