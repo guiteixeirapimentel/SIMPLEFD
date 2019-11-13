@@ -17,8 +17,6 @@ public:
     void SetBottomNeighbor(CellNode const* cBottomNeighbor) override
     {cPBottomNeighbor = nullptr;};
 
-public:
-
 };
 
 #endif

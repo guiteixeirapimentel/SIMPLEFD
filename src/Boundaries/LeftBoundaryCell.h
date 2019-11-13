@@ -16,7 +16,6 @@ public:
     void SetTopNeighbor(CellNode const* pTopNeighbor) override;
     void SetBottomNeighbor(CellNode const* cBottomNeighbor) override;
 
-public:
 
 };
 

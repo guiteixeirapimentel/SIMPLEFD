@@ -16,7 +16,17 @@ public:
     virtual void SetTopNeighbor(CellNode const* pTopNeighbor);
     virtual void SetBottomNeighbor(CellNode const* pBottomNeighbor);
 
-public:
+    CellNode const* GetRightNeighbor() const;
+    CellNode const* GetLeftNeighbor() const;
+    CellNode const* GetTopNeighbor() const;
+    CellNode const* GetBottomNeighbor() const;
+
+    void SetRightNeighbor(CellNode const* pRightNeighbor);
+    void SetLeftNeighbor(CellNode const* pLeftNeighbor);
+    void SetTopNeighbor(CellNode const* pTopNeighbor);
+    void SetBottomNeighbor(CellNode const* pBottomNeighbor);    
+
+protected:
     PressureNode*  cPPressureNode;
 
     StaggeredNode*  cPRightStaggeredNode;

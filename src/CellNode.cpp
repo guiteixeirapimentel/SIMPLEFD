@@ -61,3 +61,41 @@ CellNode::~CellNode()
  {
      cPBottomNeighbor = pBottomNeighbor;
  }
+
+CellNode const* CellNode::GetRightNeighbor() const
+{
+    return cPRightNeighbor;
+}
+
+CellNode const* CellNode::GetLeftNeighbor() const
+{
+    return cPLeftNeighbor;
+}
+
+CellNode const* CellNode::GetTopNeighbor() const
+{
+    return cPTopNeighbor;
+}
+
+CellNode const* CellNode::GetBottomNeighbor() const
+{
+    return cPBottomNeighbor;
+}    
+
+void CellNode::SetRightNeighbor(CellNode const* pRightNeighbor)
+{
+    cPRightNeighbor = pRightNeighbor;
+}
+void CellNode::SetLeftNeighbor(CellNode const* pLeftNeighbor)
+{
+    cPLeftNeighbor = pLeftNeighbor;
+}
+
+void CellNode::SetTopNeighbor(CellNode const* pTopNeighbor)
+{
+    cPTopNeighbor = pTopNeighbor;
+}
+void CellNode::SetBottomNeighbor(CellNode const* pBottomNeighbor)
+{
+    cPBottomNeighbor = pBottomNeighbor;
+}
