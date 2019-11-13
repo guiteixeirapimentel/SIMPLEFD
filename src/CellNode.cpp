@@ -9,7 +9,9 @@ cPTopNeighbor(nullptr),
 cPLeftNeighbor(nullptr),
 cPBottomNeighbor(nullptr),
 cPRightStaggeredNode(nullptr),
-cPBottomStaggeredNode(nullptr)
+cPBottomStaggeredNode(nullptr),
+cdx(dx),
+cdy(dy)
 {
     if(!boundary)
     {
@@ -23,3 +25,39 @@ cPBottomStaggeredNode(nullptr)
 
     cPPressureNode = new PressureNode(xPressure, yPressure, initPressure);
 }
+
+CellNode::~CellNode()
+{
+    if(cPRightStaggeredNode)
+    {
+        delete cPRightStaggeredNode;
+        cPRightStaggeredNode = nullptr;
+    }
+    if(cPBottomStaggeredNode)
+    {
+        delete cPBottomStaggeredNode;
+        cPBottomStaggeredNode = nullptr;
+    }
+    if(cPPressureNode)
+    {
+        delete cPPressureNode;
+        cPPressureNode = nullptr;
+    }
+}
+
+ void CellNode::SetRightNeighbor(CellNode const* pRightNeighbor)
+ {
+     cPRightNeighbor = pRightNeighbor;
+ }
+ void CellNode::SetLeftNeighbor(CellNode const* pLeftNeighbor)
+ {
+     cPLeftNeighbor = pLeftNeighbor;
+ }
+ void CellNode::SetTopNeighbor(CellNode const* pTopNeighbor)
+ {
+     cPTopNeighbor = pTopNeighbor;
+ }
+ void CellNode::SetBottomNeighbor(CellNode const* pBottomNeighbor)
+ {
+     cPBottomNeighbor = pBottomNeighbor;
+ }

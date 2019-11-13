@@ -14,7 +14,7 @@ public:
     virtual void SetRightNeighbor(CellNode const* pRightNeighbor);
     virtual void SetLeftNeighbor(CellNode const* pLeftNeighbor);
     virtual void SetTopNeighbor(CellNode const* pTopNeighbor);
-    virtual void SetBottomNeighbor(CellNode const* cBottomNeighbor);
+    virtual void SetBottomNeighbor(CellNode const* pBottomNeighbor);
 
 public:
     PressureNode*  cPPressureNode;
@@ -26,6 +26,9 @@ public:
     CellNode const* cPBottomNeighbor;
     CellNode const* cPLeftNeighbor;
     CellNode const* cPTopNeighbor;
+
+    const double cdx;
+    const double cdy;
 };
 
 #endif
