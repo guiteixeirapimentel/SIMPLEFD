@@ -6,8 +6,8 @@
 class CellNode
 {
 public:
-    CellNode(double dx, double dy, double xPressure, double yPressure, double initPressure, double initU,
-    double initV, bool notused = false);
+    CellNode(double dx, double dy, double xPressure, double yPressure, double initPressure,
+     double initU, double initV, bool notused = false);
     
     ~CellNode();
 
@@ -21,16 +21,21 @@ public:
     CellNode const* GetTopNeighbor() const;
     CellNode const* GetBottomNeighbor() const;
 
-    void SetRightNeighbor(CellNode const* pRightNeighbor);
-    void SetLeftNeighbor(CellNode const* pLeftNeighbor);
-    void SetTopNeighbor(CellNode const* pTopNeighbor);
-    void SetBottomNeighbor(CellNode const* pBottomNeighbor);    
+    PressureNode const* GetPPressureNode() const;
+    StaggeredNode const* GetPRightStaggeredNode() const;  //V
+    StaggeredNode const* GetPBottomStaggeredNode() const; //U
+
+    void CalculateNextVelocity(double dt, double rho, double mu);
+    
+    double Relax(double dt, double rho);
+
+    void CalculateNextPressure(double alfa = 0.8); 
 
 protected:
     PressureNode*  cPPressureNode;
 
-    StaggeredNode*  cPRightStaggeredNode;
-    StaggeredNode*  cPBottomStaggeredNode;
+    StaggeredNode*  cPRightStaggeredNode;  //V
+    StaggeredNode*  cPBottomStaggeredNode; //U
 
     CellNode const* cPRightNeighbor;
     CellNode const* cPBottomNeighbor;

@@ -4,12 +4,12 @@ CellNode::CellNode(double dx, double dy, double xPressure, double yPressure, dou
     double initV, bool boundary)
     :
 cPPressureNode(nullptr),
-cPRightNeighbor(nullptr),
-cPTopNeighbor(nullptr),
-cPLeftNeighbor(nullptr),
-cPBottomNeighbor(nullptr),
 cPRightStaggeredNode(nullptr),
 cPBottomStaggeredNode(nullptr),
+cPRightNeighbor(nullptr),
+cPBottomNeighbor(nullptr),
+cPLeftNeighbor(nullptr),
+cPTopNeighbor(nullptr),
 cdx(dx),
 cdy(dy)
 {
@@ -82,20 +82,60 @@ CellNode const* CellNode::GetBottomNeighbor() const
     return cPBottomNeighbor;
 }    
 
-void CellNode::SetRightNeighbor(CellNode const* pRightNeighbor)
+PressureNode const* CellNode::GetPPressureNode() const
 {
-    cPRightNeighbor = pRightNeighbor;
+    return cPPressureNode;
 }
-void CellNode::SetLeftNeighbor(CellNode const* pLeftNeighbor)
+StaggeredNode const* CellNode::GetPRightStaggeredNode() const
 {
-    cPLeftNeighbor = pLeftNeighbor;
+    return cPRightStaggeredNode;
+}
+StaggeredNode const* CellNode::GetPBottomStaggeredNode() const
+{
+    return cPBottomStaggeredNode;
 }
 
-void CellNode::SetTopNeighbor(CellNode const* pTopNeighbor)
+void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
 {
-    cPTopNeighbor = pTopNeighbor;
+    const double Uipthreehalfj = cPRightNeighbor->GetPRightStaggeredNode()->cValue;
+    const double Uimhalfj = cPLeftNeighbor->GetPRightStaggeredNode()->cValue;
+    const double Uiphalfjp = cPTopNeighbor->GetPRightStaggeredNode()->cValue;
+    const double Uiphalfjm = cPBottomNeighbor->GetPRightStaggeredNode()->cValue;    
+    const double Uiphalfj = cPRightStaggeredNode->cValue;
+
+    const double VBiphalfjp = 0.5 * (cPTopNeighbor->GetPBottomStaggeredNode()->cValue + cPTopNeighbor->GetRightNeighbor()->GetPBottomStaggeredNode()->cValue);
+    const double Viphalfjm = 0.5 * (cPBottomStaggeredNode->cValue + cPRightNeighbor->GetPBottomStaggeredNode()->cValue);
+
+    const double Pipj = cPRightNeighbor->GetPPressureNode()->cP;
+    const double Pij = cPPressureNode->cP;
+    
+    const double AStar = 
+    -(
+        (((rho * Uipthreehalfj*Uipthreehalfj) - (rho * Uimhalfj*Uimhalfj))/(2.0 * cdx))
+        +
+        (((rho*Uiphalfjp*VBiphalfjp)-(rho*Uiphalfjm))/(2.0*cdy))
+    )
+    
+    +
+    (mu 
+    * 
+    (
+        ((Uipthreehalfj-(2.0*Uiphalfj)+Uimhalfj)/(cdx*cdx))
+        +
+        ((Uiphalfjp - (2.0*Uiphalfj)+Uiphalfjm)/(cdy*cdy))       
+    
+    )
+    );
+
+    cPRightStaggeredNode->cValueNp = (rho * Uiphalfj)+ (AStar*dt)-
+    ((dt/cdx)*(Pipj-Pij));
+
+    // to do: Conferir equações acima, 6.94
+    // to do: Escrever Equação 6.95.
+    
+
 }
-void CellNode::SetBottomNeighbor(CellNode const* pBottomNeighbor)
-{
-    cPBottomNeighbor = pBottomNeighbor;
-}
+    
+double CellNode::Relax(double dt, double rho);
+
+void CellNode::CalculateNextPressure(double alfa = 0.8); 

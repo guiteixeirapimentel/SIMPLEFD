@@ -11,6 +11,7 @@ public:
 
 public:
     double cValue;
+    double cValueNp;
 };
 
 #endif

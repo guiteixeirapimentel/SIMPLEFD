@@ -3,7 +3,8 @@
 StaggeredNode::StaggeredNode(double x, double y, double initValue)
 :
 Node(x, y),
-cValue(initValue)
+cValue(initValue),
+cValueNp(cValue)
 {}
 
 StaggeredNode::~StaggeredNode()
