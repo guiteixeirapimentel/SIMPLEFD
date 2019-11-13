@@ -3,12 +3,12 @@
 
 #include "../CellNode.h"
 
-class LeftBottomBoundaryCell : public CellNode
+class LeftBoundaryCell : public CellNode
 {
 public:
-    LeftBottomBoundaryCell(double xPressure, double yPressure, double initPressure, 
+    LeftBoundaryCell(double dx, double dy, double xPressure, double yPressure, double initPressure, 
     double initU);
-    ~LeftBottomBoundaryCell();
+    ~LeftBoundaryCell();
 
     void SetRightNeighbor(CellNode const* pRightNeighbor) override;
     void SetLeftNeighbor(CellNode const* pLeftNeighbor) override
