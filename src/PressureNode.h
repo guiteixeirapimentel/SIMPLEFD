@@ -12,6 +12,11 @@ public:
 public:
     double cP;
     double cPCorr;
+	
+	double cA;
+	double cB;
+	double cC;
+	double cD;
 };
 
 #endif

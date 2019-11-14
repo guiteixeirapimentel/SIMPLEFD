@@ -1,4 +1,5 @@
 #include "CellNode.h"
+#include <cmath>
 
 CellNode::CellNode(double dx, double dy, double xPressure, double yPressure, double initPressure, double initU,
     double initV, bool boundary)
@@ -130,9 +131,7 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
 
     cPRightStaggeredNode->cValueNp = ((rho * Uiphalfj)+ (AStar*dt)-
     ((dt/cdx)*(Pipj-Pij))) / rho;
-
-    // to do: Escrever Equação 6.95.
-
+	
     const double Vijphalf = cPTopStaggeredNode->cValue;
     const double Vipjphalf = cPRightNeighbor->GetPTopStaggeredNode()->cValue;
     const double Vimjphalf = cPLeftNeighbor->GetPTopStaggeredNode()->cValue;
@@ -166,11 +165,43 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     
 double CellNode::RelaxatePCorr(double dt, double rho)
 {
-	// To do: Eq 6.104
+	const double PPipj = cPRightNeighbor->GetPPressureNode()->cPCorr;
+	const double PPimj = cPLeftNeighbor->GetPPressureNode()->cPCorr;
+	const double PPijp = cPTopNeighbor->GetPPressureNode()->cPCorr;
+	const double PPijm = cPBottomNeighbor->GetPPressureNode()->cPCorr;
 
+	const double B = cPPressureNode->cB;
+	const double A = cPPressureNode->cA;
+	const double C = cPPressureNode->cC;
+	const double D = cPPressureNode->cD;
+
+	const double temp = cPPressureNode->cPCorr;
+
+	cPPressureNode->cPCorr = -(B*PPipj) - (B*PPimj) - (C*PPijp) - (C*PPijm) - D;
+
+	return abs((temp - cPPressureNode->cPCorr) / temp);
 }
 
-void CellNode::CalculateNextPressure(double alfa = 1.0)
+double CellNode::CalculatePCorrSource(double dt, double rho)
+{
+	cPRightStaggeredNode->cValue = cPRightStaggeredNode->cValueNp;
+	cPTopStaggeredNode->cValue = cPTopStaggeredNode->cValueNp;
+
+	const double Uiphalfj = cPRightStaggeredNode->cValue;
+	const double Uimhalfj = cPLeftNeighbor->GetPRightStaggeredNode()->cValue;
+
+	const double Vijphalf = cPTopStaggeredNode->cValue;
+	const double Vijmhalf = cPBottomNeighbor->GetPTopStaggeredNode()->cValue;
+
+	cPPressureNode->cA = 2.0 *dt*((1.0 / (cdx*cdx)) + (1.0 / (cdy*cdy)));
+	cPPressureNode->cB = -dt / (cdx*cdx);
+	cPPressureNode->cC = -dt / (cdy*cdy);
+	cPPressureNode->cD = rho * (((Uiphalfj - Uimhalfj) / cdx) + ((Vijphalf - Vijmhalf)) / cdy);
+
+	return cPPressureNode->cD;
+}
+
+void CellNode::CalculateNextPressure(double alfa)
 {
 	cPPressureNode->cP += (alfa * cPPressureNode->cPCorr);
 }

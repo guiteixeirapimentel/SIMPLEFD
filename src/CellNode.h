@@ -27,9 +27,10 @@ public:
 
     void CalculateNextVelocity(double dt, double rho, double mu);
     
-    double Relax(double dt, double rho);
+	double CalculatePCorrSource(double dt, double rho);
+    double RelaxatePCorr(double dt, double rho);
 
-    void CalculateNextPressure(double alfa = 0.8); 
+    void CalculateNextPressure(double alfa = 1.0); 
 
 protected:
     PressureNode*  cPPressureNode;
