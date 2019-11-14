@@ -25,12 +25,12 @@ public:
     StaggeredNode const* GetPRightStaggeredNode() const;  //U i+1/2
     StaggeredNode const* GetPTopStaggeredNode() const; //V j+1/2
 
-    void CalculateNextVelocity(double dt, double rho, double mu);
+    virtual void CalculateNextVelocity(double dt, double rho, double mu);
     
-	double CalculatePCorrSource(double dt, double rho);
-    double RelaxatePCorr(double dt, double rho);
-
-    void CalculateNextPressure(double alfa = 1.0); 
+	virtual double CalculatePCorrSource(double dt, double rho);
+    virtual double RelaxatePCorr(double dt, double rho);
+	
+    virtual void CalculateNextPressure(double alfa = 1.0); 
 
 protected:
     PressureNode*  cPPressureNode;
