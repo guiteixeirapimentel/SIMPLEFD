@@ -103,8 +103,9 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     const double Uiphalfjm = cPBottomNeighbor->GetPRightStaggeredNode()->cValue;    
     const double Uiphalfj = cPRightStaggeredNode->cValue;
 
-    const double VBiphalfjp = 0.5 * (cPTopNeighbor->GetPBottomStaggeredNode()->cValue + cPTopNeighbor->GetRightNeighbor()->GetPBottomStaggeredNode()->cValue);
-    const double Viphalfjm = 0.5 * (cPBottomStaggeredNode->cValue + cPRightNeighbor->GetPBottomStaggeredNode()->cValue);
+    const double VBiphalfjp = 0.5 * (cPTopStaggeredNode->cValue + cPRightNeighbor->GetPTopStaggeredNode()->cValue);
+    const double Viphalfjm = 0.5 * (cPBottomNeighbor->GetPTopStaggeredNode()->cValue + 
+		cPRightNeighbor->cPBottomNeighbor->GetPTopStaggeredNode()->cValue);
 
     const double Pipj = cPRightNeighbor->GetPPressureNode()->cP;
     const double Pij = cPPressureNode->cP;
@@ -113,7 +114,7 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     -(
         (((rho * Uipthreehalfj*Uipthreehalfj) - (rho * Uimhalfj*Uimhalfj))/(2.0 * cdx))
         +
-        (((rho*Uiphalfjp*VBiphalfjp)-(rho*Uiphalfjm))/(2.0*cdy))
+        (((rho*Uiphalfjp*VBiphalfjp)-(rho*Uiphalfjm*Viphalfjm))/(2.0*cdy))
     )
     
     +
@@ -127,19 +128,49 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     )
     );
 
-    cPRightStaggeredNode->cValueNp = (rho * Uiphalfj)+ (AStar*dt)-
-    ((dt/cdx)*(Pipj-Pij));
+    cPRightStaggeredNode->cValueNp = ((rho * Uiphalfj)+ (AStar*dt)-
+    ((dt/cdx)*(Pipj-Pij))) / rho;
 
-	// to do: corrigir eq. acima.
     // to do: Escrever Equação 6.95.
 
-    const double Vijphalf = cPTopNeighbor->GetPBottomStaggeredNode()->cValue;
-    const double Vipjphalf = cPRightNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
-    const double Vimjphalf = cPLeftNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
-    const double Vijpthreehalf = cPTopNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
-    const double Vijmhalf = cPBottomStaggeredNode->cValue;
+    const double Vijphalf = cPTopStaggeredNode->cValue;
+    const double Vipjphalf = cPRightNeighbor->GetPTopStaggeredNode()->cValue;
+    const double Vimjphalf = cPLeftNeighbor->GetPTopStaggeredNode()->cValue;
+    const double Vijpthreehalf = cPTopNeighbor->GetPTopStaggeredNode()->cValue;
+    const double Vijmhalf = cPBottomNeighbor->GetPTopStaggeredNode()->cValue;
+
+	const double UBipjphalf = 0.5*(cPRightStaggeredNode+cPTopNeighbor->GetPRightStaggeredNode()->cValue);
+	const double Uimjphalf = 0.5*(cPLeftNeighbor->GetPRightStaggeredNode()->cValue +
+		cPTopNeighbor->GetLeftNeighbor()->GetPRightStaggeredNode()->cValue);
+
+	const double BStar =
+		-(
+		(((rho * vipjphalf*UBipjphalf) - (rho * Vimjphalf*Uimjphalf)) / (2.0 * cdx))
+			+
+			(((rho*Vijpthreehalf*Vijpthreehalf) - (rho*Vijmhalf*Vijmhalf)) / (2.0*cdy))
+			)
+
+		+
+		(mu
+			*
+			(
+			((Vipjphalf - (2.0*Vijphalf) + Vimjphalf) / (cdx*cdx))
+				+
+				((Vijpthreehalf - (2.0*Vijphalf) + Vijmhalf) / (cdy*cdy))
+
+				)
+			);
+
+	cPTopStaggeredNode->cValueNp = (rho*Vijphalf) + (BStar*dt) - ((dt / dx)*(Pijp - Pij);
 }
     
-double CellNode::Relax(double dt, double rho);
+double CellNode::RelaxatePCorr(double dt, double rho)
+{
+	// To do: Eq 6.104
 
-void CellNode::CalculateNextPressure(double alfa = 0.8); 
+}
+
+void CellNode::CalculateNextPressure(double alfa = 1.0)
+{
+	cPPressureNode->cP += (alfa * cPPressureNode->cPCorr);
+}
