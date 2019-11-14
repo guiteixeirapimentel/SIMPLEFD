@@ -130,10 +130,15 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     cPRightStaggeredNode->cValueNp = (rho * Uiphalfj)+ (AStar*dt)-
     ((dt/cdx)*(Pipj-Pij));
 
-    // to do: Conferir equações acima, 6.94
+    // To do: Alterar bottom to top (CELL NODE POSSUI TOP E RIGHT STAGGERED NODE)
+    // TODO: Ajustar cada classe de boundary para ajustar a essa mudança.
     // to do: Escrever Equação 6.95.
-    
 
+    const double Vijphalf = cPTopNeighbor->GetPBottomStaggeredNode()->cValue;
+    const double Vipjphalf = cPRightNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
+    const double Vimjphalf = cPLeftNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
+    const double Vijpthreehalf = cPTopNeighbor->GetTopNeighbor()->GetPBottomStaggeredNode()->cValue;
+    const double Vijmhalf = cPBottomStaggeredNode->cValue;
 }
     
 double CellNode::Relax(double dt, double rho);
