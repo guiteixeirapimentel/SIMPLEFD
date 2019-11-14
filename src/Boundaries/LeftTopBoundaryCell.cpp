@@ -1,7 +1,7 @@
 #include "LeftTopBoundaryCell.h"
 
 LeftTopBoundaryCell::LeftTopBoundaryCell(double dx, double dy, double xPressure, double yPressure, double initPressure, 
-    double initU, double initV)
+    double initU)
     :
     CellNode(dx, dy, xPressure, yPressure, initPressure, initU, initV, true)
 {
@@ -25,5 +25,5 @@ void LeftTopBoundaryCell::SetRightNeighbor(CellNode const* pRightNeighbor)
 
 void LeftTopBoundaryCell::SetBottomNeighbor(CellNode const* cBottomNeighbor)
 {
-    cPLeftNeighbor = cPLeftNeighbor;
+    cPBottomNeighbor = cBottomNeighbor;
 }
