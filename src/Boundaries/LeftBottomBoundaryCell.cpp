@@ -1,12 +1,14 @@
 #include "LeftBottomBoundaryCell.h"
 
 LeftBottomBoundaryCell::LeftBottomBoundaryCell(double dx, double dy, double xPressure, double yPressure, double initPressure, 
-    double initU)
+    double initU, double initV)
     :
-    CellNode(dx, dy, xPressure, yPressure, initPressure, initU, 0.0, true)
+    CellNode(dx, dy, xPressure, yPressure, initPressure, initU, initV, true)
 {
     cPRightStaggeredNode = new StaggeredNode(xPressure + (dx/2.0), 
         yPressure, initU);
+	cPTopStaggeredNode = new StaggeredNode(xPressure, yPressure + (dy / 2.0), initV);
+
 }
 
 LeftBottomBoundaryCell::~LeftBottomBoundaryCell()
@@ -16,6 +18,11 @@ LeftBottomBoundaryCell::~LeftBottomBoundaryCell()
         delete cPRightStaggeredNode;
         cPRightStaggeredNode = nullptr;
     }
+	if (cPTopStaggeredNode)
+	{
+		delete cPTopStaggeredNode;
+		cPTopStaggeredNode = nullptr;
+	}
 }
 
 void LeftBottomBoundaryCell::SetRightNeighbor(CellNode const* pRightNeighbor)

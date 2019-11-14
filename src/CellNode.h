@@ -22,8 +22,8 @@ public:
     CellNode const* GetBottomNeighbor() const;
 
     PressureNode const* GetPPressureNode() const;
-    StaggeredNode const* GetPRightStaggeredNode() const;  //V
-    StaggeredNode const* GetPBottomStaggeredNode() const; //U
+    StaggeredNode const* GetPRightStaggeredNode() const;  //U i+1/2
+    StaggeredNode const* GetPTopStaggeredNode() const; //V j+1/2
 
     void CalculateNextVelocity(double dt, double rho, double mu);
     
@@ -34,8 +34,8 @@ public:
 protected:
     PressureNode*  cPPressureNode;
 
-    StaggeredNode*  cPRightStaggeredNode;  //V
-    StaggeredNode*  cPBottomStaggeredNode; //U
+    StaggeredNode*  cPRightStaggeredNode;  //U i+1/2
+    StaggeredNode*  cPTopStaggeredNode; //V j+1/2
 
     CellNode const* cPRightNeighbor;
     CellNode const* cPBottomNeighbor;

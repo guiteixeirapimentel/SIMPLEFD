@@ -5,7 +5,7 @@ CellNode::CellNode(double dx, double dy, double xPressure, double yPressure, dou
     :
 cPPressureNode(nullptr),
 cPRightStaggeredNode(nullptr),
-cPBottomStaggeredNode(nullptr),
+cPTopStaggeredNode(nullptr),
 cPRightNeighbor(nullptr),
 cPBottomNeighbor(nullptr),
 cPLeftNeighbor(nullptr),
@@ -19,7 +19,7 @@ cdy(dy)
         cPRightStaggeredNode = new StaggeredNode(xPressure + (dx/2.0), 
         yPressure, initU);
 
-        cPBottomStaggeredNode = new StaggeredNode(xPressure, 
+        cPTopStaggeredNode = new StaggeredNode(xPressure, 
         yPressure + (dy/2.0), initV);
     }
 
@@ -33,10 +33,10 @@ CellNode::~CellNode()
         delete cPRightStaggeredNode;
         cPRightStaggeredNode = nullptr;
     }
-    if(cPBottomStaggeredNode)
+    if(cPTopStaggeredNode)
     {
-        delete cPBottomStaggeredNode;
-        cPBottomStaggeredNode = nullptr;
+        delete cPTopStaggeredNode;
+		cPTopStaggeredNode = nullptr;
     }
     if(cPPressureNode)
     {
@@ -90,9 +90,9 @@ StaggeredNode const* CellNode::GetPRightStaggeredNode() const
 {
     return cPRightStaggeredNode;
 }
-StaggeredNode const* CellNode::GetPBottomStaggeredNode() const
+StaggeredNode const* CellNode::GetPTopStaggeredNode() const
 {
-    return cPBottomStaggeredNode;
+    return cPTopStaggeredNode;
 }
 
 void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
@@ -130,8 +130,7 @@ void CellNode::CalculateNextVelocity(double dt, double rho, double mu)
     cPRightStaggeredNode->cValueNp = (rho * Uiphalfj)+ (AStar*dt)-
     ((dt/cdx)*(Pipj-Pij));
 
-    // To do: Alterar bottom to top (CELL NODE POSSUI TOP E RIGHT STAGGERED NODE)
-    // TODO: Ajustar cada classe de boundary para ajustar a essa mudança.
+	// to do: corrigir eq. acima.
     // to do: Escrever Equação 6.95.
 
     const double Vijphalf = cPTopNeighbor->GetPBottomStaggeredNode()->cValue;

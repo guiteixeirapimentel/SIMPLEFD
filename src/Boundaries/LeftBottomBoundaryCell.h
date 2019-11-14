@@ -7,7 +7,7 @@ class LeftBottomBoundaryCell : public CellNode
 {
 public:
     LeftBottomBoundaryCell(double dx, double dy, double xPressure, double yPressure, double initPressure, 
-    double initU);
+    double initU, double initV);
     ~LeftBottomBoundaryCell();
 
     void SetRightNeighbor(CellNode const* pRightNeighbor) override;

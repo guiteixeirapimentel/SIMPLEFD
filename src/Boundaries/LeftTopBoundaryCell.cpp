@@ -7,9 +7,6 @@ LeftTopBoundaryCell::LeftTopBoundaryCell(double dx, double dy, double xPressure,
 {
     cPRightStaggeredNode = new StaggeredNode(xPressure + (dx/2.0), 
         yPressure, initU);
-
-    cPBottomStaggeredNode = new StaggeredNode(xPressure, 
-    yPressure + (dy/2.0), initV);
 }
 
 LeftTopBoundaryCell::~LeftTopBoundaryCell()
@@ -18,11 +15,6 @@ LeftTopBoundaryCell::~LeftTopBoundaryCell()
     {
         delete cPRightStaggeredNode;
         cPRightStaggeredNode = nullptr;
-    }
-    if(cPBottomStaggeredNode)
-    {
-        delete cPBottomStaggeredNode;
-        cPBottomStaggeredNode = nullptr;
     }
 }
 

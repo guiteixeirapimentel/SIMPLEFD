@@ -5,16 +5,16 @@ RightBoundaryCell::RightBoundaryCell(double dx, double dy, double xPressure, dou
     :
 CellNode(dx, dy, xPressure, yPressure, initPressure, 0.0, initV, true)
 {
-    cPBottomStaggeredNode = new StaggeredNode(xPressure, 
+    cPTopStaggeredNode = new StaggeredNode(xPressure, 
       yPressure + (dy/2.0), initV);
 }
 
 RightBoundaryCell::~RightBoundaryCell()
 {
-    if(cPBottomStaggeredNode)
+    if(cPTopStaggeredNode)
     {
-        delete cPBottomStaggeredNode;
-        cPBottomStaggeredNode = nullptr;
+        delete cPTopStaggeredNode;
+		cPTopStaggeredNode = nullptr;
     }
 }
 
